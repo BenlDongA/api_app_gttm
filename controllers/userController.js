@@ -99,19 +99,14 @@ exports.getUsers = async (req,res)=>{
     }
 
 }
-
-
-
 exports.updateUser = async (req,res)=>{
 
     try{
 
-        const {username,name,email,sdt} = req.body
-
         const user = await User.findByIdAndUpdate(
 
             req.user.id,
-            {username,name,email,sdt},
+            {$set:req.body},
             {new:true}
 
         )
