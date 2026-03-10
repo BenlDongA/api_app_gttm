@@ -12,10 +12,10 @@ router.post("/login",userController.login)
 
 router.get("/",verifyToken,userController.getUsers)
 
-router.put("/:id",verifyToken,userController.updateUser)
+router.put("/update",verifyToken,userController.updateUser)
 
 router.delete("/:id",verifyToken,userController.deleteUser)
-
+router.get("/me",verifyToken,userController.getProfile)
 
 
 module.exports = router

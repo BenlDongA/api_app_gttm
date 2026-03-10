@@ -8,7 +8,7 @@ exports.register = async (req,res)=>{
 
     try{
 
-        const {username,name,email,password,sdt} = req.body
+        const {name,email,password,sdt} = req.body
 
         const exist = await User.findOne({email})
 
@@ -20,7 +20,7 @@ exports.register = async (req,res)=>{
         const hashPassword = await bcrypt.hash(password,salt)
 
         const user = new User({
-            username,
+            username: email,
             name,
             email,
             password:hashPassword,
@@ -106,14 +106,14 @@ exports.updateUser = async (req,res)=>{
 
     try{
 
-        const id = req.params.id
-
         const {username,name,email,sdt} = req.body
 
         const user = await User.findByIdAndUpdate(
-            id,
+
+            req.user.id,
             {username,name,email,sdt},
             {new:true}
+
         )
 
         res.json({
@@ -142,6 +142,21 @@ exports.deleteUser = async (req,res)=>{
         res.json({
             message:"User deleted"
         })
+
+    }catch(err){
+
+        res.status(500).json(err)
+
+    }
+
+}
+exports.getProfile = async (req,res)=>{
+
+    try{
+
+        const user = await User.findById(req.user.id).select("-password")
+
+        res.json(user)
 
     }catch(err){
 
