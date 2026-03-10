@@ -1,0 +1,44 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+
+# Coverage
+coverage/
+
+# Build files
+dist/
+build/
+
+# Mac files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# VSCode
+.vscode/
+
+# JetBrains IDE
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Optional npm cache
+.npm
