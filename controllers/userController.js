@@ -126,7 +126,38 @@ exports.updateUser = async (req,res)=>{
 
 }
 
+exports.changePassword = async (req,res)=>{
 
+    try{
+
+        const {oldPassword,newPassword} = req.body
+
+        const user = await User.findById(req.user.id)
+
+        const check = await bcrypt.compare(oldPassword,user.password)
+
+        if(!check){
+            return res.json({message:"Old password incorrect"})
+        }
+
+        const salt = await bcrypt.genSalt(10)
+        const hashPassword = await bcrypt.hash(newPassword,salt)
+
+        user.password = hashPassword
+
+        await user.save()
+
+        res.json({
+            message:"Password updated"
+        })
+
+    }catch(err){
+
+        res.status(500).json(err)
+
+    }
+
+}
 
 exports.deleteUser = async (req,res)=>{
 
