@@ -15,6 +15,7 @@ router.get("/",verifyToken,userController.getUsers)
 router.put("/update",verifyToken,userController.updateUser)
 
 router.delete("/:id",verifyToken,userController.deleteUser)
+router.delete("/me",verifyToken,userController.deleteUser)
 router.get("/me",verifyToken,userController.getProfile)
 router.put("/change-password", verifyToken, userController.changePassword)
 

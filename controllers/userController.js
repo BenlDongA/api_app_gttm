@@ -137,7 +137,9 @@ exports.changePassword = async (req,res)=>{
         const check = await bcrypt.compare(oldPassword,user.password)
 
         if(!check){
-            return res.json({message:"Old password incorrect"})
+            return res.status(400).json({
+                message:"Old password incorrect"
+            })
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -147,7 +149,7 @@ exports.changePassword = async (req,res)=>{
 
         await user.save()
 
-        res.json({
+        res.status(200).json({
             message:"Password updated"
         })
 
@@ -158,22 +160,31 @@ exports.changePassword = async (req,res)=>{
     }
 
 }
-
 exports.deleteUser = async (req,res)=>{
 
     try{
 
-        const id = req.params.id
+        const userId = req.user.id
 
-        await User.findByIdAndDelete(id)
+        const user = await User.findById(userId)
 
-        res.json({
-            message:"User deleted"
+        if(!user){
+            return res.status(404).json({
+                message:"User not found"
+            })
+        }
+
+        await User.findByIdAndDelete(userId)
+
+        res.status(200).json({
+            message:"Account deleted successfully"
         })
 
     }catch(err){
 
-        res.status(500).json(err)
+        res.status(500).json({
+            message:"Server error"
+        })
 
     }
 
